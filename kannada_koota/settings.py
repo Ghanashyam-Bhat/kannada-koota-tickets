@@ -11,7 +11,11 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+import dj_database_url
 
+load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -23,12 +27,42 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-vd#l&#$$+6h4f4cmzhwvv#%w(*-etbs(z+3r!x-+=dxk$vg!y@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+DEBUG = False
 
 
+# This is to configure the settnigs for serving static files 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, '')
+
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+# Reading Configuration File
+configFile = {}
+try:
+    with open('./config.conf') as f:
+        for line in f:
+            line = line.strip()
+            if line and not line.startswith('#'):  # Ignore empty lines and comments
+                key, value = line.split('=', 1)
+                configFile[key.strip()] = value.strip()
+except:
+    pass
+
+ALLOWED_HOSTS = [
+    # Removing http:// and https:// from host names
+    configFile['DJANGO'].split("//")[1],  
+    configFile['REACT_WEB'].split("//")[1],
+]
+
+CORS_ALLOWED_ORIGINS = [
+    configFile['DJANGO'],
+    configFile['REACT_WEB'],
+]
+CORS_ORIGIN_ALLOW_ALL = False
 # Application definition
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -37,17 +71,25 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'ticket_generation.apps.TicketGenerationConfig'
+    'corsheaders',
+    "django_extensions",
+    
+    #User defined apps    
+    'ticket_generation.apps.TicketGenerationConfig',
+    'authentication.apps.AuthenticationConfig'
 ]
 
 MIDDLEWARE = [
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'kannada_koota.urls'
@@ -68,18 +110,26 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'kannada_koota.wsgi.application'
-
+# WSGI_APPLICATION = 'kannada_koota.wsgi.application'
+WSGI_APPLICATION = 'vercel_app.wsgi.app'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default=os.environ.get("POSTGRES_URL")
+    )
 }
+
 
 
 # Password validation
@@ -122,3 +172,39 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# CROSS ORIGIN REQUEST SETTINGS
+
+CORS_ORIGIN_WHITELIST = [ 
+    configFile['DJANGO'],
+    configFile['REACT_WEB'],
+]
+
+CORS_ALLOW_HEADERS = [
+    'Accept',
+    'Accept-Encoding',
+    'Authorization',
+    'Content-Type',
+    'Cookie',  # Add 'Cookie' header to allow
+    'Origin',
+]
+
+CORS_ALLOWED_METHODS = [
+    'GET',
+    'POST',
+    'OPTIONS',
+    # Add other allowed methods as needed
+]
+
+
+CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOW_CREDENTIALS = True
+
+
+SESSION_COOKIE_HTTPONLY = False
+SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_SAMESITE = "Lax"
+SESSION_COOKIE_PATH = '/'
+SESSION_COOKIE_DOMAIN = ""
