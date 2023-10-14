@@ -141,14 +141,14 @@ def proxy_handler(request,*args):
         connection.close()
         
         # Extract the cookie from the response
-        if response.status == 200:
+        if response.status == 201:
             try:
                 cookie = response.headers['Set-Cookie'].split(";")[0]
                 cookie = cookie.split("=")
                 key = cookie[0]
                 value = cookie[1]
                 response_data[key] = value
-                return JsonResponse(response_data,status=200)
+                return JsonResponse(response_data,status=201)
             except:
                 print("No Cookie Infotmation")
                 pass
