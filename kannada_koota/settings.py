@@ -14,15 +14,6 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 import dj_database_url
-import smtplib
-
-# Create an SMTP_SSL object with the specified server and port
-smtp = smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context)
-
-# Log in using the provided email and password
-EMAIL_ADDRESS = 'developerhitesh29@gmail.com'
-EMAIL_PASSWORD = 'xvlslgftplqijjyv'
-smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
 
 load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
