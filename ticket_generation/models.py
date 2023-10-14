@@ -9,3 +9,4 @@ class attendee(models.Model):
     phone = models.CharField(max_length=10)
     isCash = models.BooleanField()
     handledBy = models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
+    hashVal = models.CharField(max_length=32)
