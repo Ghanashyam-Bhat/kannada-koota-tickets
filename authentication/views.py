@@ -24,7 +24,7 @@ def auth(req_body):
             user = User.objects.get(pk=user_id)
             print("user:",user)
             if user.is_authenticated:   
-                return {'message': 'SUCCESS','id':user},200
+                return {'message': 'SUCCESS','id':user_id},200
         return {'message': 'FAILURE'},401
     except Session.DoesNotExist:
         return {'message': 'FAILURE'},401
