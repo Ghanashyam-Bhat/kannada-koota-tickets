@@ -15,8 +15,7 @@ from io import BytesIO
 from PIL import Image as PILImage
 import tempfile
 import os
-
-import smtplib
+from ..kannada_koota.settings import smtp
 import ssl
 from email.mime.application import MIMEApplication
 from email.mime.text import MIMEText
@@ -137,13 +136,6 @@ def generate_pdf(id,name,phone,qr_buffer):
     return pdf_buffer
 
 def sendMail(id,email,name,contact,hash_val):
-        
-    EMAIL_ADDRESS = 'developerhitesh29@gmail.com'
-    EMAIL_PASSWORD = 'xvlslgftplqijjyv'
-
-    # Define email sender and receiver
-    email_sender = EMAIL_ADDRESS
-    email_password = EMAIL_PASSWORD
     email_receiver = email
 
     # Set the subject and body of the email
@@ -204,7 +196,4 @@ def sendMail(id,email,name,contact,hash_val):
     # Add SSL (layer of security)
     context = ssl.create_default_context()
 
-    # Log in and send the email
-    with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as smtp:
-        smtp.login(email_sender, email_password)
-        smtp.sendmail(email_sender, email_receiver, msg.as_string())
+    smtp.sendmail(email_sender, email_receiver, msg.as_string())
