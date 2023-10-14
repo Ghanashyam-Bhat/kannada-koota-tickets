@@ -41,7 +41,7 @@ def ticketSubmissions(request):
                 phone = data["contact"],
                 isCash = True if "Cash"==data["paymentMethod"] else False,
                 handledBy = User.objects.get(pk=message["id"]),
-                hash_val = hash_val
+                hashVal = hash_val
             )
             newAttendee.save()
             try:
