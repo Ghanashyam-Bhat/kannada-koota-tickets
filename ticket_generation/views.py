@@ -1,26 +1,28 @@
 from django.http import JsonResponse
-from django.contrib.auth import authenticate,login,logout
-from django.http import JsonResponse
 import json
+from authentication.views import auth
 from .models import attendee as Attendee
 
 # Create your views here.    
 def ticketSubmissions(request):
-    if not request.user.is_authenticated:
-        response =  JsonResponse({'message': 'REDIRECT'}, status=302)
+    req_body = request.body.decode('utf-8')
+    message,status = auth(req_body=req_body)
+    data = json.loads(req_body)
+    if status!=200:
+        response =  JsonResponse({'message': 'REDIRECT'}, status=500)
         return response
     try:
         if request.method == 'POST':
-            data = json.loads(request.body.decode('utf-8'))
             newAttendee = Attendee(
                 id = data["universityId"],
                 email = data["email"],
                 name = data["name"],
                 phone = data["contact"],
                 isCash = True if "Cash"==data["paymentMethod"] else False,
-                handledBy = request.user
+                handledBy = message["id"]
             )
             newAttendee.save()
+            response =  JsonResponse({'message': 'SUCCESS'}, status=200)
     except Exception as err:
         print(f"Server Error in ticket submission.\nRequest -> {request}\nError -> {err}")
 

@@ -5,4 +5,5 @@ urlpatterns = [
     path('status/',views.login_status),
     path('login/',views.login_api),
     path('logout/',views.logout_api),
+    path('proxy/',views.proxy_handler),
 ]
