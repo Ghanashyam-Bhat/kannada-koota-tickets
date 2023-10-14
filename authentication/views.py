@@ -6,7 +6,7 @@ import json
 # Create your views here.
 def login_status(request):
     if not request.user.is_authenticated:
-        response =  JsonResponse({'message': 'REDIRECT'}, status=302)
+        response =  JsonResponse({'message': 'REDIRECT'}, status=501)
         return response
     else:
         response =  JsonResponse({'message': 'SUCCESS'}, status=200)
@@ -31,7 +31,7 @@ def login_api(request):
 
 def logout_api(request):
     if not request.user.is_authenticated:
-        response =  JsonResponse({'message': 'REDIRECT'}, status=302)
+        response =  JsonResponse({'message': 'REDIRECT'}, status=501)
         return response
     try:
         logout(request)

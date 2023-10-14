@@ -13,12 +13,12 @@ def ticketSubmissions(request):
         if request.method == 'POST':
             data = json.loads(request.body.decode('utf-8'))
             newAttendee = Attendee(
-                id = data["id"],
+                id = data["universityId"],
                 email = data["email"],
                 name = data["name"],
-                phone = data["phone"],
-                isCash = data["isCash"],
-                handledBy = request.user.name
+                phone = data["contact"],
+                isCash = True if "Cash"==data["paymentMethod"] else False,
+                handledBy = request.user
             )
             newAttendee.save()
     except Exception as err:
