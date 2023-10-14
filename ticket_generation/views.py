@@ -11,7 +11,7 @@ def ticketSubmissions(request):
     data = json.loads(req_body)
     User = get_user_model()
     if status!=200:
-        response =  JsonResponse({'message': 'REDIRECT'}, status=500)
+        response =  JsonResponse({'message': 'REDIRECT'}, status=401)
         return response
     try:
         if request.method == 'POST':
@@ -24,8 +24,11 @@ def ticketSubmissions(request):
                 handledBy = User.objects.get(pk=message["id"])
             )
             newAttendee.save()
-            response =  JsonResponse({'message': 'SUCCESS'}, status=200)
+            response =  JsonResponse({'message': 'SUCCESS'}, status=201)
+            return response
     except Exception as err:
         print(f"Server Error in ticket submission.\nRequest -> {request}\nError -> {err}")
+        response =  JsonResponse({'message': 'ERROR'}, status=500)
+        return response
 
 
