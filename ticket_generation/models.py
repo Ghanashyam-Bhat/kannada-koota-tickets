@@ -10,3 +10,4 @@ class attendee(models.Model):
     isCash = models.BooleanField()
     handledBy = models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
     hashVal = models.CharField(max_length=64)
+    verified = models.BooleanField(default=False)
