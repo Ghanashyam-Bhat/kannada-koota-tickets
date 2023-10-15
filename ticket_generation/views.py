@@ -15,7 +15,7 @@ from io import BytesIO
 from PIL import Image as PILImage
 import tempfile
 import os
-
+from dotenv import load_dotenv
 import smtplib
 import ssl
 from email.mime.application import MIMEApplication
@@ -137,13 +137,10 @@ def generate_pdf(id,name,phone,qr_buffer):
     return pdf_buffer
 
 def sendMail(id,email,name,contact,hash_val):
-        
-    EMAIL_ADDRESS = 'developerhitesh29@gmail.com'
-    EMAIL_PASSWORD = 'xvlslgftplqijjyv'
-
     # Define email sender and receiver
-    email_sender = EMAIL_ADDRESS
-    email_password = EMAIL_PASSWORD
+    load_dotenv()
+    email_sender = os.environ.get("EMAIL_ADDRESS")
+    email_password = os.environ.get("EMAIL_PASSWORD")
     email_receiver = email
 
     # Set the subject and body of the email
