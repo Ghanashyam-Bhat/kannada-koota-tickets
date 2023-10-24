@@ -47,7 +47,8 @@ def ticketSubmissions(request):
                         "phone" : data["contact"],
                         "isCash" : True if "Cash"==data["paymentMethod"] else False,
                         "handledBy" : handler.get_username(),
-                        "hashVal" : hash_val
+                        "hashVal" : hash_val,
+                        "verified" : False
                     }
                     addToFirebase(data)
                 except Exception as e:
