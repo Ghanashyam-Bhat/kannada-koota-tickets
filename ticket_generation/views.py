@@ -19,6 +19,7 @@ def ticketSubmissions(request):
     try:
         if request.method == 'POST':
             hash_val = generateUniqueData(data["universityId"],data["email"],data["name"],data["contact"])
+            # Storing data in Postgress
             newAttendee = Attendee(
                 id = data["universityId"],
                 email = data["email"],
@@ -34,8 +35,10 @@ def ticketSubmissions(request):
             except Exception as e:
                 print("Error -> Failed to send email:",e)
                 response =  JsonResponse({'message': 'Email Failed'}, status=200)
+                return response
             finally:
                 try:
+                    # Storing data in firebase
                     data = {
                         "id" : data["universityId"],
                         "email" : data["email"],
@@ -49,6 +52,7 @@ def ticketSubmissions(request):
                 except Exception as e:
                     print("ERROR -> Failed to add data to firebase:",e)
                     response =  JsonResponse({'message': 'Failed to add data to firebase'}, status=200)
+                    return response
             response =  JsonResponse({'message': 'SUCCESS'}, status=201)
             
             return response
