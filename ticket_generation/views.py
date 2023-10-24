@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 import json
 from authentication.views import auth
-from ticket_generation import addToFirebase
+from ticket_generation.addToFirebase import addToFirebase
 from .models import attendee as Attendee
 from django.contrib.auth import get_user_model
 from ticket_generation.generateUniqueCode import generateUniqueData

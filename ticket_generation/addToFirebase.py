@@ -1,5 +1,4 @@
 from firebase_admin import firestore
-
 ATTENDEES = "attendees"
 
 def addToFirebase(data):
