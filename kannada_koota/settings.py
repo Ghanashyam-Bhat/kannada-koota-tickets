@@ -14,8 +14,17 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 import dj_database_url
+import json
+import firebase_admin
+from firebase_admin import credentials
 
 load_dotenv()
+
+# Initialize Firebase
+FIREBASE_CRED = os.environ.get("FIREBASE_CRED")
+cred = credentials.Certificate(json.loads(FIREBASE_CRED))
+firebase_admin.initialize_app(cred)
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
