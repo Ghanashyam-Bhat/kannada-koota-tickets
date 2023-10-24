@@ -9,7 +9,7 @@ def generateQrCode(hash_val):
             border=4,
         )
 
-    qr.add_data(hash_val)
+    qr.add_data("KK-ATTENDEE_PASS-"+hash_val)
     qr.make(fit=True)
     qr_image = qr.make_image(fill_color="black", back_color="white")
 
