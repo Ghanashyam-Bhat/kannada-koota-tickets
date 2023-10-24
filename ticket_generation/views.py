@@ -19,6 +19,7 @@ def ticketSubmissions(request):
     try:
         if request.method == 'POST':
             hash_val = generateUniqueData(data["universityId"],data["email"],data["name"],data["contact"])
+            handler = User.objects.get(pk=message["id"])
             # Storing data in Postgress
             newAttendee = Attendee(
                 id = data["universityId"],
@@ -26,7 +27,7 @@ def ticketSubmissions(request):
                 name = data["name"],
                 phone = data["contact"],
                 isCash = True if "Cash"==data["paymentMethod"] else False,
-                handledBy = User.objects.get(pk=message["id"]),
+                handledBy = handler,
                 hashVal = hash_val
             )
             newAttendee.save()
@@ -45,7 +46,7 @@ def ticketSubmissions(request):
                         "name" : data["name"],
                         "phone" : data["contact"],
                         "isCash" : True if "Cash"==data["paymentMethod"] else False,
-                        "handledBy" : message["id"],
+                        "handledBy" : handler.get_username(),
                         "hashVal" : hash_val
                     }
                     addToFirebase(data)
