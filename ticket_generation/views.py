@@ -32,7 +32,7 @@ def ticketSubmissions(request):
             )
             newAttendee.save()
             try:
-                sendMail(data["universityId"],data["email"],data["name"],data["contact"],hash_val)
+                sendMail(data["universityId"],data["email"],data["name"],data["contact"],"VIP",hash_val)
             except Exception as e:
                 print("Error -> Failed to send email:",e)
                 response =  JsonResponse({'message': 'Email Failed'}, status=200)

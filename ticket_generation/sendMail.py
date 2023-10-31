@@ -6,9 +6,8 @@ from email.mime.application import MIMEApplication
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from ticket_generation.generatePdf import generate_pdf
-from ticket_generation.generateQR import generateQrCode
 
-def sendMail(id,email,name,contact,hash_val):
+def sendMail(id,email,name,contact,ttype,hash_val):
     # Define email sender and receiver
     load_dotenv()
     email_sender = os.environ.get("EMAIL_ADDRESS")
@@ -61,8 +60,7 @@ def sendMail(id,email,name,contact,hash_val):
     html_part = MIMEText(body, "html")
     msg.attach(html_part)
 
-    qrCode = generateQrCode(hash_val)
-    pdfFile = generate_pdf(id,name,contact,qrCode)
+    pdfFile = generate_pdf(name,ttype,hash_val)
 
 
     # Attach the PDF file
