@@ -66,7 +66,7 @@ def sendMail(id,email,name,contact,hash_val,isVip):
 
 
     # Attach the PDF file
-    pdf_attachment = MIMEApplication(pdfFile.getvalue(), _subtype="pdf")
+    pdf_attachment = MIMEApplication(pdfFile.read(), _subtype="pdf")
     pdf_attachment.add_header("Content-Disposition", f'attachment; filename="{id}.pdf"')
     msg.attach(pdf_attachment)
 
