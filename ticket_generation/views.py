@@ -18,6 +18,7 @@ def ticketSubmissions(request):
         return response
     try:
         if request.method == 'POST':
+            data["universityId"] = data["universityId"].strip()
             hash_val = generateUniqueData(data["universityId"],data["email"],data["name"],data["contact"])
             handler = User.objects.get(pk=message["id"])
             # Storing data in Postgress

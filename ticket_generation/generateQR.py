@@ -11,7 +11,7 @@ def generateQrCode(hash_val):
 
     qr.add_data("KK-ATTENDEE_PASS-"+hash_val)
     qr.make(fit=True)
-    qr_image = qr.make_image(fill_color="black", back_color="silver")
+    qr_image = qr.make_image(fill_color="black", back_color="white")
 
     # Create a BytesIO buffer for the QR code image
     qr_buffer = BytesIO()
