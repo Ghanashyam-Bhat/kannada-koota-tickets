@@ -6,6 +6,7 @@ from .models import attendee as Attendee
 from django.contrib.auth import get_user_model
 from ticket_generation.generateUniqueCode import generateUniqueData
 from ticket_generation.sendMail import sendMail
+import datetime
 
 # Create your views here.    
 def ticketSubmissions(request):
@@ -33,7 +34,8 @@ def ticketSubmissions(request):
                     isCash = True if data["paymentMethod"]=="Cash" else False,
                     handledBy = handler,
                     hashVal = hash_val,
-                    isVip = True if data["ttype"]=="VIP" else False
+                    isVip = True if data["ttype"]=="VIP" else False,
+                    created_datetime = (datetime.datetime.now()+datetime.timedelta(hours=5,minutes=30)).isoformat(' ')
                 )
                 newAttendee.save()
                 response =  JsonResponse({'message': 'Data already exists'}, status=200)
@@ -46,7 +48,8 @@ def ticketSubmissions(request):
                     isCash = True if data["paymentMethod"]=="Cash" else False,
                     handledBy = handler,
                     hashVal = hash_val,
-                    isVip = True if data["ttype"]=="VIP" else False
+                    isVip = True if data["ttype"]=="VIP" else False,
+                    created_datetime = (datetime.datetime.now()+datetime.timedelta(hours=5,minutes=30)).isoformat(' ')
                 )
                 newAttendee.save()
                 response =  JsonResponse({'message': 'SUCCESS'}, status=201)
