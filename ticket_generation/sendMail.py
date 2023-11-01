@@ -19,40 +19,37 @@ def sendMail(id,email,name,contact,hash_val,isVip):
     subject = "Karnataka Rajyotsava ticket by Kannada Koota"
     body = """
     <!DOCTYPE html>
-        <html lang="en">
+        <html>
         <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Full-Screen Image</title>
+            <title>Full Page Image</title>
             <style>
                 body {
                     margin: 0;
                     padding: 0;
-                    background-image: url('https://kannada-koota-tickets.vercel.app/media/your-image.jpg'); /* Replace 'your-image.jpg' with the image URL or path */
-                    background-size: cover;
-                    background-position: center;
-                    background-attachment: fixed;
-                    background-repeat: no-repeat;
-                    height: 100vh;
+                    overflow: hidden;
                     display: flex;
                     justify-content: center;
                     align-items: center;
+                    height: 100vh;
                 }
 
-                /* Optional: Add styles for text or other content on the image */
-                .content {
-                    text-align: center;
-                    color: #ffffff;
-                    background-color: rgba(0, 0, 0, 0.5);
-                    padding: 20px;
-                    border-radius: 10px;
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+
+                @media (max-width: 768px) {
+                    body {
+                        justify-content: flex-start; /* Align image to the top for screens with a width of 768px or less */
+                    }
                 }
             </style>
         </head>
         <body>
+            <img src="https://i.ibb.co/vsTsm6P/email-body.jpg" alt="Full Page Image">
         </body>
         </html>
-
     """
 
     # Create a multipart message
