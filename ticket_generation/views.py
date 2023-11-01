@@ -72,7 +72,7 @@ def ticketSubmissions(request):
                     return response
             except Exception as e:
                 print("Error -> Failed to send email:",e)
-                response =  JsonResponse({'message': 'Email Failed'}, status=200)
+                response =  JsonResponse({'message': 'Email Failed'}, status=500)
                 return response  
             return response
     except Exception as err:
