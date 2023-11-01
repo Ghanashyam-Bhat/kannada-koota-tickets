@@ -21,24 +21,36 @@ def ticketSubmissions(request):
             hash_val = generateUniqueData(data["universityId"],data["email"],data["name"],data["contact"])
             handler = User.objects.get(pk=message["id"])
             # Storing data in Postgress
-            newAttendee = Attendee(
-                id = data["universityId"].upper(),
-                email = data["email"].lower(),
-                name = data["name"].upper(),
-                phone = data["contact"],
-                isCash = True if data["paymentMethod"]=="Cash" else False,
-                handledBy = handler,
-                hashVal = hash_val,
-                isVip = True if data["ttype"]=="VIP" else False
-            )
-            newAttendee.save()
+            attendeeData = Attendee.objects.get(id=data["universityId"].upper())
+            if attendeeData!=None:
+                hash_val = attendeeData.hashVal
+                newAttendee = Attendee(
+                    id = data["universityId"].upper(),
+                    email = data["email"].lower(),
+                    name = data["name"].upper(),
+                    phone = data["contact"],
+                    isCash = True if data["paymentMethod"]=="Cash" else False,
+                    handledBy = handler,
+                    hashVal = hash_val,
+                    isVip = True if data["ttype"]=="VIP" else False
+                )
+                newAttendee.save()
+                response =  JsonResponse({'message': 'Data already exists'}, status=200)
+            else:
+                newAttendee = Attendee(
+                    id = data["universityId"].upper(),
+                    email = data["email"].lower(),
+                    name = data["name"].upper(),
+                    phone = data["contact"],
+                    isCash = True if data["paymentMethod"]=="Cash" else False,
+                    handledBy = handler,
+                    hashVal = hash_val,
+                    isVip = True if data["ttype"]=="VIP" else False
+                )
+                newAttendee.save()
+                response =  JsonResponse({'message': 'SUCCESS'}, status=201)
             try:
                 sendMail(newAttendee.id,newAttendee.email,newAttendee.name,newAttendee.phone,newAttendee.hashVal,newAttendee.isVip)
-            except Exception as e:
-                print("Error -> Failed to send email:",e)
-                response =  JsonResponse({'message': 'Email Failed'}, status=200)
-                return response
-            finally:
                 try:
                     # Storing data in firebase
                     data = {
@@ -57,8 +69,10 @@ def ticketSubmissions(request):
                     print("ERROR -> Failed to add data to firebase:",e)
                     response =  JsonResponse({'message': 'Failed to add data to firebase'}, status=500)
                     return response
-            response =  JsonResponse({'message': 'SUCCESS'}, status=201)
-            
+            except Exception as e:
+                print("Error -> Failed to send email:",e)
+                response =  JsonResponse({'message': 'Email Failed'}, status=200)
+                return response  
             return response
     except Exception as err:
         print(f"Server Error in ticket submission.\nRequest -> {request}\nError -> {err}")
