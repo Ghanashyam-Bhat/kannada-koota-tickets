@@ -1,7 +1,7 @@
 import qrcode
 from io import BytesIO
 
-def generateQrCode(hash_val,isVip):
+def generateQrCode(hash_val):
     qr = qrcode.QRCode(
             version=1,
             error_correction=qrcode.constants.ERROR_CORRECT_H,
@@ -11,7 +11,7 @@ def generateQrCode(hash_val,isVip):
 
     qr.add_data("KK-ATTENDEE_PASS-"+hash_val)
     qr.make(fit=True)
-    qr_image = qr.make_image(fill_color="black", back_color="gold" if isVip else "silver")
+    qr_image = qr.make_image(fill_color="black", back_color="silver")
 
     # Create a BytesIO buffer for the QR code image
     qr_buffer = BytesIO()

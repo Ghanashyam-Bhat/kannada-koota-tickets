@@ -61,7 +61,7 @@ def sendMail(id,email,name,contact,hash_val,isVip):
     html_part = MIMEText(body, "html")
     msg.attach(html_part)
 
-    qrCode = generateQrCode(hash_val,isVip)
+    qrCode = generateQrCode(hash_val)
     pdfFile = generate_pdf(id,name,contact,qrCode)
 
 

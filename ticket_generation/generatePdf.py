@@ -39,7 +39,7 @@ def generate_pdf(id,name,phone,qr_buffer):
         qr_pil_image.save(temp_qr_file_path, format='PNG')
 
     # Add the QR code image from the temporary file to the PDF
-    pdf.drawImage(temp_qr_file_path, 236, 118, width=1.78 * inch, height=1.7 * inch)
+    pdf.drawImage(temp_qr_file_path, 236, 118, width=1.8 * inch, height=1.7 * inch)
 
     # Close and remove the temporary file
     temp_qr_file.close()
