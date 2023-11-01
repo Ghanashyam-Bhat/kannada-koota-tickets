@@ -8,14 +8,31 @@ from reportlab.pdfgen import canvas
 from PIL import Image as PILImage
 import tempfile
 from io import BytesIO
-import PyPDF2
 import os
 
-def generate_pdf(id,name,phone,qr_buffer):
+import qrcode
+from io import BytesIO
+
+def generateQrCode(hash_val):
+    qr = qrcode.QRCode(
+            version=1,
+            error_correction=qrcode.constants.ERROR_CORRECT_H,
+            box_size=14,
+            border=1,
+        )
+
+    qr.add_data("KK-ATTENDEE_PASS-"+hash_val)
+    qr.make(fit=True)
+    qr_image = qr.make_image(fill_color="black", back_color="silver")
+
+    # Create a BytesIO buffer for the QR code image
+    qr_buffer = BytesIO()
+    qr_image.save(qr_buffer, format='PNG')  # Set the format explicitly to PNG
+    qr_buffer.seek(0)
+    return qr_buffer
+
+def generate_pdf(id,name,phone,qr_buffer,isVip):
     # Create a BytesIO buffer to store the PDF
-    
-    finalPdf = PyPDF2.PdfWriter()
-    finalpdf_buffer = BytesIO()
 
     # pdf = canvas.Canvas("certificate.pdf", pagesize=letter)
 
@@ -29,12 +46,12 @@ def generate_pdf(id,name,phone,qr_buffer):
     pdf.rect(0, 0, letter[0], letter[1], fill=True, stroke=False)
 
     # Add logo
-    template_path = "static/ticket_template.jpg"
+    template_path = "static/ticket_template_vip.jpg" if isVip else "static/ticket_template_general.jpg"
     pdf.drawImage(template_path,0,0, letter[0], letter[1])
 
-    pdf.setFont("Helvetica", 14)
+    pdf.setFont("Helvetica", 12)
     pdf.setFillColor(colors.lightyellow)
-    pdf.drawString(73,485, f"Dear {name},")
+    pdf.drawString(80,340, f"Dear {name},")
 
     # Convert the QR code to a PIL image
     qr_pil_image = PILImage.open(qr_buffer)
@@ -57,9 +74,4 @@ def generate_pdf(id,name,phone,qr_buffer):
     # Move the buffer position to the beginning of the PDF
     pdf_buffer.seek(0)
 
-    finalPdf.add_page(pdf_buffer)
-    finalPdf.add_page(qr_buffer)
-    finalPdf.write(finalpdf_buffer)
-    finalpdf_buffer.seek(0)
-
-    return finalpdf_buffer
+    return pdf_buffer

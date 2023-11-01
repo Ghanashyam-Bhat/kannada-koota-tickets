@@ -18,37 +18,41 @@ def sendMail(id,email,name,contact,hash_val,isVip):
     # Set the subject and body of the email
     subject = "Karnataka Rajyotsava ticket by Kannada Koota"
     body = """
-    <html>
-    <head>
-    <style>
-    .container {
-    text-align: center;
-    }
-    body {
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-    }
-    h1 {
-    color: #333;
-    font-size: 36px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    }
-    p {
-    color: #555;
-    font-size: 16px;
-    margin-bottom: 10px;
-    }
-    </style>
-    </head>
-    <body>
-    <div class="container">
-        <h1>ಕನ್ನಡ ಕೂಟ</h1>
-        <p>This is your automatically generated Ticket for """+name+"""</p>
-    </div>
-    </body>
-    </html>
+    <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Full-Screen Image</title>
+            <style>
+                body {
+                    margin: 0;
+                    padding: 0;
+                    background-image: url('https://kannada-koota-tickets.vercel.app/media/your-image.jpg'); /* Replace 'your-image.jpg' with the image URL or path */
+                    background-size: cover;
+                    background-position: center;
+                    background-attachment: fixed;
+                    background-repeat: no-repeat;
+                    height: 100vh;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+
+                /* Optional: Add styles for text or other content on the image */
+                .content {
+                    text-align: center;
+                    color: #ffffff;
+                    background-color: rgba(0, 0, 0, 0.5);
+                    padding: 20px;
+                    border-radius: 10px;
+                }
+            </style>
+        </head>
+        <body>
+        </body>
+        </html>
+
     """
 
     # Create a multipart message
@@ -62,11 +66,11 @@ def sendMail(id,email,name,contact,hash_val,isVip):
     msg.attach(html_part)
 
     qrCode = generateQrCode(hash_val)
-    pdfFile = generate_pdf(id,name,contact,qrCode)
+    pdfFile = generate_pdf(id,name,contact,qrCode,isVip)
 
 
     # Attach the PDF file
-    pdf_attachment = MIMEApplication(pdfFile.read(), _subtype="pdf")
+    pdf_attachment = MIMEApplication(pdfFile.getvalue(), _subtype="pdf")
     pdf_attachment.add_header("Content-Disposition", f'attachment; filename="{id}.pdf"')
     msg.attach(pdf_attachment)
 

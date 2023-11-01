@@ -27,7 +27,7 @@ def ticketSubmissions(request):
                 newAttendee = Attendee(
                     id = data["universityId"].upper(),
                     email = data["email"].lower(),
-                    name = data["name"].upper(),
+                    name = data["name"].title(),
                     phone = data["contact"],
                     isCash = True if data["paymentMethod"]=="Cash" else False,
                     handledBy = handler,
@@ -40,7 +40,7 @@ def ticketSubmissions(request):
                 newAttendee = Attendee(
                     id = data["universityId"].upper(),
                     email = data["email"].lower(),
-                    name = data["name"].upper(),
+                    name = data["name"].title(),
                     phone = data["contact"],
                     isCash = True if data["paymentMethod"]=="Cash" else False,
                     handledBy = handler,
