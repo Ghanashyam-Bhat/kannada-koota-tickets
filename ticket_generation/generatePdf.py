@@ -57,8 +57,8 @@ def generate_pdf(id,name,phone,qr_buffer):
     # Move the buffer position to the beginning of the PDF
     pdf_buffer.seek(0)
 
-    finalPdf.addPage(pdf_buffer)
-    finalPdf.addPage(qr_buffer)
+    finalPdf.add_page(pdf_buffer)
+    finalPdf.add_page(qr_buffer)
     finalPdf.write(finalpdf_buffer)
     finalpdf_buffer.seek(0)
 
