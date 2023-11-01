@@ -14,7 +14,7 @@ import os
 def generate_pdf(id,name,phone,qr_buffer):
     # Create a BytesIO buffer to store the PDF
     
-    finalPdf = PyPDF2.PdfFileWriter()
+    finalPdf = PyPDF2.PdfWriter()
     finalpdf_buffer = BytesIO()
 
     # pdf = canvas.Canvas("certificate.pdf", pagesize=letter)
