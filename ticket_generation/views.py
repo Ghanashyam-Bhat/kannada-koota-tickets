@@ -26,13 +26,14 @@ def ticketSubmissions(request):
                 email = data["email"],
                 name = data["name"],
                 phone = data["contact"],
-                isCash = True if "Cash"==data["paymentMethod"] else False,
+                isCash = True if data["paymentMethod"]=="Cash" else False,
                 handledBy = handler,
-                hashVal = hash_val
+                hashVal = hash_val,
+                isVip = True if data["ttype"]=="VIP" else False
             )
             newAttendee.save()
             try:
-                sendMail(data["universityId"],data["email"],data["name"],data["contact"],hash_val)
+                sendMail(newAttendee.id,newAttendee.email,newAttendee.name,newAttendee.phone,newAttendee.hashVal,newAttendee.isVip)
             except Exception as e:
                 print("Error -> Failed to send email:",e)
                 response =  JsonResponse({'message': 'Email Failed'}, status=200)
@@ -48,12 +49,13 @@ def ticketSubmissions(request):
                         "isCash" : True if "Cash"==data["paymentMethod"] else False,
                         "handledBy" : handler.get_username(),
                         "hashVal" : hash_val,
-                        "verified" : False
+                        "verified" : False,
+                        "isVip" : True if data["ttype"]=="VIP" else False
                     }
                     addToFirebase(data)
                 except Exception as e:
                     print("ERROR -> Failed to add data to firebase:",e)
-                    response =  JsonResponse({'message': 'Failed to add data to firebase'}, status=200)
+                    response =  JsonResponse({'message': 'Failed to add data to firebase'}, status=500)
                     return response
             response =  JsonResponse({'message': 'SUCCESS'}, status=201)
             
