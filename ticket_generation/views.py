@@ -22,9 +22,9 @@ def ticketSubmissions(request):
             handler = User.objects.get(pk=message["id"])
             # Storing data in Postgress
             newAttendee = Attendee(
-                id = data["universityId"],
-                email = data["email"],
-                name = data["name"],
+                id = data["universityId"].upper(),
+                email = data["email"].lower(),
+                name = data["name"].upper(),
                 phone = data["contact"],
                 isCash = True if data["paymentMethod"]=="Cash" else False,
                 handledBy = handler,
@@ -42,9 +42,9 @@ def ticketSubmissions(request):
                 try:
                     # Storing data in firebase
                     data = {
-                        "id" : data["universityId"],
-                        "email" : data["email"],
-                        "name" : data["name"],
+                        "id" : data["universityId"].upper(),
+                        "email" : data["email"].lower(),
+                        "name" : data["name"].upper(),
                         "phone" : data["contact"],
                         "isCash" : True if "Cash"==data["paymentMethod"] else False,
                         "handledBy" : handler.get_username(),
