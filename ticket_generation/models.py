@@ -13,4 +13,4 @@ class attendee(models.Model):
     handledBy = models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
     hashVal = models.CharField(max_length=64)
     isVip = models.BooleanField(default=False)
-    created_datetime = models.DateTimeField(default=(datetime.datetime.now().replace(tzinfo=pytz.utc).astimezone(pytz.timezone('Asia/Kolkata'))).isoformat(' '))
+    created_datetime = models.DateTimeField(default=(datetime.datetime.now()+datetime.timedelta(hours=5,minutes=30)).isoformat(' '))
