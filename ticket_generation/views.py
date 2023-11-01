@@ -56,7 +56,7 @@ def ticketSubmissions(request):
                     data = {
                         "id" : data["universityId"].upper(),
                         "email" : data["email"].lower(),
-                        "name" : data["name"].upper(),
+                        "name" : data["name"].title(),
                         "phone" : data["contact"],
                         "isCash" : True if "Cash"==data["paymentMethod"] else False,
                         "handledBy" : handler.get_username(),
