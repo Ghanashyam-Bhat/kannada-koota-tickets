@@ -21,8 +21,8 @@ def ticketSubmissions(request):
             hash_val = generateUniqueData(data["universityId"],data["email"],data["name"],data["contact"])
             handler = User.objects.get(pk=message["id"])
             # Storing data in Postgress
-            attendeeData = Attendee.objects.get(id=data["universityId"].upper())
-            if attendeeData!=None:
+            try:
+                attendeeData = Attendee.objects.get(id=data["universityId"].upper())
                 hash_val = attendeeData.hashVal
                 newAttendee = Attendee(
                     id = data["universityId"].upper(),
@@ -36,7 +36,7 @@ def ticketSubmissions(request):
                 )
                 newAttendee.save()
                 response =  JsonResponse({'message': 'Data already exists'}, status=200)
-            else:
+            except:
                 newAttendee = Attendee(
                     id = data["universityId"].upper(),
                     email = data["email"].lower(),
