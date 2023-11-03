@@ -39,7 +39,10 @@ def ticketSubmissions(request):
                     handledBy=handler,
                     hashVal=hash_val,
                     isVip=True if data["ttype"] == "VIP" else False,
-                    created_datetime=(datetime.datetime.now()).isoformat(" "),
+                    created_datetime=(
+                        datetime.datetime.now()
+                        + datetime.timedelta(hours=5, minutes=30)
+                    ).isoformat(" "),
                 )
                 newAttendee.save()
                 response = JsonResponse({"message": "Data already exists"}, status=200)
@@ -53,7 +56,10 @@ def ticketSubmissions(request):
                     handledBy=handler,
                     hashVal=hash_val,
                     isVip=True if data["ttype"] == "VIP" else False,
-                    created_datetime=(datetime.datetime.now()).isoformat(" "),
+                    created_datetime=(
+                        datetime.datetime.now()
+                        + datetime.timedelta(hours=5, minutes=30)
+                    ).isoformat(" "),
                 )
                 newAttendee.save()
                 response = JsonResponse({"message": "SUCCESS"}, status=201)
