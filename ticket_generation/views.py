@@ -8,78 +8,92 @@ from ticket_generation.generateUniqueCode import generateUniqueData
 from ticket_generation.sendMail import sendMail
 import datetime
 
-# Create your views here.    
+
+# Create your views here.
 def ticketSubmissions(request):
-    req_body = request.body.decode('utf-8')
-    message,status = auth(req_body=req_body)
+    req_body = request.body.decode("utf-8")
+    message, status = auth(req_body=req_body)
     data = json.loads(req_body)
     User = get_user_model()
-    if status!=200:
-        response =  JsonResponse({'message': 'REDIRECT'}, status=401)
+    if status != 200:
+        response = JsonResponse({"message": "REDIRECT"}, status=401)
         return response
     try:
-        response =  JsonResponse({'message': 'SUCCESS'}, status=201)
-        if request.method == 'POST':
+        response = JsonResponse({"message": "SUCCESS"}, status=201)
+        if request.method == "POST":
             data["universityId"] = data["universityId"].strip()
-            hash_val = generateUniqueData(data["universityId"],data["email"],data["name"],data["contact"])
+            hash_val = generateUniqueData(
+                data["universityId"], data["email"], data["name"], data["contact"]
+            )
             handler = User.objects.get(pk=message["id"])
             # Storing data in Postgress
             try:
                 attendeeData = Attendee.objects.get(id=data["universityId"].upper())
                 hash_val = attendeeData.hashVal
                 newAttendee = Attendee(
-                    id = data["universityId"].upper(),
-                    email = data["email"].lower(),
-                    name = data["name"].title(),
-                    phone = data["contact"],
-                    isCash = True if data["paymentMethod"]=="Cash" else False,
-                    handledBy = handler,
-                    hashVal = hash_val,
-                    isVip = True if data["ttype"]=="VIP" else False,
-                    created_datetime = (datetime.datetime.now()).isoformat(' ')
+                    id=data["universityId"].upper(),
+                    email=data["email"].lower(),
+                    name=data["name"].title(),
+                    phone=data["contact"],
+                    isCash=True if data["paymentMethod"] == "Cash" else False,
+                    handledBy=handler,
+                    hashVal=hash_val,
+                    isVip=True if data["ttype"] == "VIP" else False,
+                    created_datetime=(datetime.datetime.now()).isoformat(" "),
                 )
                 newAttendee.save()
-                response =  JsonResponse({'message': 'Data already exists'}, status=200)
+                response = JsonResponse({"message": "Data already exists"}, status=200)
             except:
                 newAttendee = Attendee(
-                    id = data["universityId"].upper(),
-                    email = data["email"].lower(),
-                    name = data["name"].title(),
-                    phone = data["contact"],
-                    isCash = True if data["paymentMethod"]=="Cash" else False,
-                    handledBy = handler,
-                    hashVal = hash_val,
-                    isVip = True if data["ttype"]=="VIP" else False,
-                    created_datetime = (datetime.datetime.now()).isoformat(' ')
+                    id=data["universityId"].upper(),
+                    email=data["email"].lower(),
+                    name=data["name"].title(),
+                    phone=data["contact"],
+                    isCash=True if data["paymentMethod"] == "Cash" else False,
+                    handledBy=handler,
+                    hashVal=hash_val,
+                    isVip=True if data["ttype"] == "VIP" else False,
+                    created_datetime=(datetime.datetime.now()).isoformat(" "),
                 )
                 newAttendee.save()
-                response =  JsonResponse({'message': 'SUCCESS'}, status=201)
+                response = JsonResponse({"message": "SUCCESS"}, status=201)
             try:
-                sendMail(newAttendee.id,newAttendee.email,newAttendee.name,newAttendee.phone,newAttendee.hashVal,newAttendee.isVip)
+                sendMail(
+                    newAttendee.id,
+                    newAttendee.email,
+                    newAttendee.name,
+                    newAttendee.phone,
+                    newAttendee.hashVal,
+                    newAttendee.isVip,
+                )
                 try:
                     # Storing data in firebase
                     data = {
-                        "id" : data["universityId"].upper(),
-                        "email" : data["email"].lower(),
-                        "name" : data["name"].title(),
-                        "phone" : data["contact"],
-                        "isCash" : True if "Cash"==data["paymentMethod"] else False,
-                        "handledBy" : handler.get_username(),
-                        "hashVal" : hash_val,
-                        "verified" : False,
-                        "isVip" : True if data["ttype"]=="VIP" else False
+                        "id": data["universityId"].upper(),
+                        "email": data["email"].lower(),
+                        "name": data["name"].title(),
+                        "phone": data["contact"],
+                        "isCash": True if "Cash" == data["paymentMethod"] else False,
+                        "handledBy": handler.get_username(),
+                        "hashVal": hash_val,
+                        "verified": False,
+                        "isVip": True if data["ttype"] == "VIP" else False,
                     }
-                    addToFirebase(data)
+                    # addToFirebase(data)
                 except Exception as e:
-                    print("ERROR -> Failed to add data to firebase:",e)
-                    response =  JsonResponse({'message': 'Failed to add data to firebase'}, status=500)
+                    print("ERROR -> Failed to add data to firebase:", e)
+                    response = JsonResponse(
+                        {"message": "Failed to add data to firebase"}, status=500
+                    )
                     return response
             except Exception as e:
-                print("Error -> Failed to send email:",e)
-                response =  JsonResponse({'message': 'Email Failed'}, status=500)
-                return response  
+                print("Error -> Failed to send email:", e)
+                response = JsonResponse({"message": "Email Failed"}, status=500)
+                return response
             return response
     except Exception as err:
-        print(f"Server Error in ticket submission.\nRequest -> {request}\nError -> {err}")
-        response =  JsonResponse({'message': 'ERROR'}, status=500)
+        print(
+            f"Server Error in ticket submission.\nRequest -> {request}\nError -> {err}"
+        )
+        response = JsonResponse({"message": "ERROR"}, status=500)
         return response
