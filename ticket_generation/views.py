@@ -79,7 +79,7 @@ def ticketSubmissions(request):
                         "verified": False,
                         "isVip": True if data["ttype"] == "VIP" else False,
                     }
-                    # addToFirebase(data)
+                    addToFirebase(data)
                 except Exception as e:
                     print("ERROR -> Failed to add data to firebase:", e)
                     response = JsonResponse(
