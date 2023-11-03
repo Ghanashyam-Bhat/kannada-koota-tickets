@@ -31,7 +31,7 @@ def generateQrCode(hash_val):
     qr_buffer.seek(0)
     return qr_buffer
 
-def generate_pdf(id,name,phone,qr_buffer,isVip):
+def generate_pdf(name,isVip):
     # Create a BytesIO buffer to store the PDF
 
     # pdf = canvas.Canvas("certificate.pdf", pagesize=letter)
@@ -50,8 +50,11 @@ def generate_pdf(id,name,phone,qr_buffer,isVip):
     pdf.drawImage(template_path,0,0, letter[0], letter[1])
 
     pdf.setFont("Helvetica", 12)
-    pdf.setFillColor(colors.lightyellow)
-    pdf.drawString(80,340, f"Dear {name},")
+    pdf.setFillColor(colors.white)
+
+    # pdf.drawString(80,340, f"Dear {name},")
+    pdf.drawString(125,340, f"{name},")
+
 
     # Convert the QR code to a PIL image
     qr_pil_image = PILImage.open(qr_buffer)
@@ -73,5 +76,9 @@ def generate_pdf(id,name,phone,qr_buffer,isVip):
 
     # Move the buffer position to the beginning of the PDF
     pdf_buffer.seek(0)
+    # Assuming pdf_buffer contains the PDF content
+    # with open('output.pdf', 'wb') as output_file:
+    #     output_file.write(pdf_buffer.read())
 
     return pdf_buffer
+# generate_pdf("hitesh",True)
