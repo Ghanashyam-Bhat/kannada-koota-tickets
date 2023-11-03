@@ -18,6 +18,7 @@ def ticketSubmissions(request):
         response =  JsonResponse({'message': 'REDIRECT'}, status=401)
         return response
     try:
+        response =  JsonResponse({'message': 'SUCCESS'}, status=201)
         if request.method == 'POST':
             data["universityId"] = data["universityId"].strip()
             hash_val = generateUniqueData(data["universityId"],data["email"],data["name"],data["contact"])
