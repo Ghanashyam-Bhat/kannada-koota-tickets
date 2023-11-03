@@ -47,7 +47,7 @@ def sendMail(id,email,name,contact,hash_val,isVip):
             </style>
         </head>
         <body>
-            <img src="https://lh3.googleusercontent.com/pw/ADCreHco5zSPu3z5M00lAPbgaIWaQS4LSf491q4aK3SXTpU3JO7KU7P3_HMf9xfnLO6vFyR_IQMxVJUcI3xMVWV5DWM5mjABCNBbV4z1Yo1_mpng89-crbQ7g2aHkGGCCVhuf-fkZiedO1xy-oiM7vCZz3k=w618-h878-s-no-gm?authuser=0" alt="Full Page Invitation">
+            <img src="https://lh3.googleusercontent.com/pw/ADCreHdRBzLnNZC12gtOwhctUHrripBHVPYDveYRwCgXYqu-TreA4z9w3krb2BZ9xhDQMy-9wEp4-dmgV3hV-WRP64fdVGwr9WztGbGwapUY3JGHWpEE-hkM-7xILqY_d_vkip7MvyImNDFjl9vvTsdu6uw=w651-h924-s-no-gm?authuser=0" alt="Full Page Invitation">
         </body>
         </html>
     """

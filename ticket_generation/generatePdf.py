@@ -31,7 +31,7 @@ def generateQrCode(hash_val):
     qr_buffer.seek(0)
     return qr_buffer
 
-def generate_pdf(name,isVip):
+def generate_pdf(id,name,contact,qrCode,isVip):
     # Create a BytesIO buffer to store the PDF
 
     # pdf = canvas.Canvas("certificate.pdf", pagesize=letter)
