@@ -10,7 +10,7 @@ import tempfile
 from io import BytesIO
 import os
 
-def generate_pdf(id,name,phone,qr_buffer,isVip)::
+def generate_pdf(id,name,phone,qr_buffer,isVip):
     # Create a BytesIO buffer to store the PDF
 
     # pdf = canvas.Canvas("certificate.pdf", pagesize=letter)
