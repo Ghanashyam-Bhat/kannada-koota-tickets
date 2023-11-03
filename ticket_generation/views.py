@@ -36,7 +36,7 @@ def ticketSubmissions(request):
                     handledBy = handler,
                     hashVal = hash_val,
                     isVip = True if data["ttype"]=="VIP" else False,
-                    created_datetime = (datetime.datetime.now()Q3    ).isoformat(' ')
+                    created_datetime = (datetime.datetime.now()).isoformat(' ')
                 )
                 newAttendee.save()
                 response =  JsonResponse({'message': 'Data already exists'}, status=200)
