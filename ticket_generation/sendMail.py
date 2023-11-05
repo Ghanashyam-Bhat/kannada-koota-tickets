@@ -7,12 +7,15 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from ticket_generation.generatePdf import generate_pdf
 from ticket_generation.generateQR import generateQrCode
+import json
 
-def sendMail(id,email,name,contact,hash_val,isVip):
+
+def sendMail(id, email, name, contact, hash_val, isVip, mailid):
     # Define email sender and receiver
     load_dotenv()
-    email_sender = os.environ.get("EMAIL_ADDRESS")
-    email_password = os.environ.get("EMAIL_PASSWORD")
+    mailList = json.loads(os.environ.get("MAIL"))
+    email_sender = mailList[mailid]["email"]
+    email_password = mailList[mailid]["password"]
     email_receiver = email
 
     # Set the subject and body of the email
@@ -63,8 +66,7 @@ def sendMail(id,email,name,contact,hash_val,isVip):
     msg.attach(html_part)
 
     qrCode = generateQrCode(hash_val)
-    pdfFile = generate_pdf(id,name,contact,qrCode,isVip)
-
+    pdfFile = generate_pdf(id, name, contact, qrCode, isVip)
 
     # Attach the PDF file
     pdf_attachment = MIMEApplication(pdfFile.getvalue(), _subtype="pdf")

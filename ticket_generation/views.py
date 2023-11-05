@@ -26,6 +26,7 @@ def ticketSubmissions(request):
                 data["universityId"], data["email"], data["name"], data["contact"]
             )
             handler = User.objects.get(pk=message["id"])
+            count = Attendee.objects.count()
             # Storing data in Postgress
             try:
                 attendeeData = Attendee.objects.get(id=data["universityId"].upper())
@@ -43,6 +44,7 @@ def ticketSubmissions(request):
                         datetime.datetime.now()
                         + datetime.timedelta(hours=5, minutes=30)
                     ).isoformat(" "),
+                    mailid=(count + 1) % 5,
                 )
                 newAttendee.save()
                 response = JsonResponse({"message": "Data already exists"}, status=200)
@@ -60,6 +62,7 @@ def ticketSubmissions(request):
                         datetime.datetime.now()
                         + datetime.timedelta(hours=5, minutes=30)
                     ).isoformat(" "),
+                    mailid=(count + 1) % 5,
                 )
                 newAttendee.save()
                 response = JsonResponse({"message": "SUCCESS"}, status=201)
@@ -71,6 +74,7 @@ def ticketSubmissions(request):
                     newAttendee.phone,
                     newAttendee.hashVal,
                     newAttendee.isVip,
+                    newAttendee.mailid,
                 )
                 try:
                     # Storing data in firebase

@@ -14,3 +14,4 @@ class attendee(models.Model):
     hashVal = models.CharField(max_length=64)
     isVip = models.BooleanField(default=False)
     created_datetime = models.DateTimeField()
+    mailid = models.IntegerField()
