@@ -50,7 +50,7 @@ def sendMail(id, email, name, contact, hash_val, isVip, mailid):
             </style>
         </head>
         <body>
-            <img src="https://lh3.googleusercontent.com/pw/ADCreHdRBzLnNZC12gtOwhctUHrripBHVPYDveYRwCgXYqu-TreA4z9w3krb2BZ9xhDQMy-9wEp4-dmgV3hV-WRP64fdVGwr9WztGbGwapUY3JGHWpEE-hkM-7xILqY_d_vkip7MvyImNDFjl9vvTsdu6uw=w651-h924-s-no-gm?authuser=0" alt="Full Page Invitation">
+            <img src="https://lh3.googleusercontent.com/pw/ADCreHe-TW5nuitC-24-qUsH5RBzh1ZADikN273CBJ89yqZZnhK-P801FksLBbQby2a8AVv0vlIRXn94gpL3jZRVBafUyZ_wb3jgAtmtuUKriCR_ZNIxvN32xZuLIzNZoQUrw-au-I0M8ksGH_MvUMhVsMs=w651-h924-s-no-gm" alt="Full Page Invitation">
         </body>
         </html>
     """
