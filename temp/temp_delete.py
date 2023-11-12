@@ -4,6 +4,7 @@ import json
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
+import json
 
 load_dotenv()
 
@@ -16,12 +17,8 @@ ATTENDEES = "attendees"
 
 db = firestore.client()
 
-allDocs = list(db.collection(ATTENDEES).stream())
-print(len(allDocs))
-allAttendees = list()
-for doc in allDocs:
-    docData = doc.to_dict()
-    allAttendees.append(docData)
-
-with open("attendeeData.json", "w") as jsonData:
-    jsonData.write(json.dumps(allAttendees))
+with open("deleteuser.json") as data:
+    jsonData = json.load(data)
+    for i in jsonData:
+        hashVal = i["hashVal"]
+        db.collection(ATTENDEES).document(hashVal).delete()

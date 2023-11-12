@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Json File Upload</title>
+</head>
+<body>
+    <h1>Upload a CSV File</h1>
+    <form action="/ticket/batchUpload/" method="post" enctype="multipart/form-data">
+        <input type="file" name="csv_file" accept=".json" required>
+        <input type="submit" value="Upload">
+    </form>
+</body>
+</html>

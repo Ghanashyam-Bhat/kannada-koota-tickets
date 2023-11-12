@@ -1,9 +1,9 @@
-*/__pycache__
-/db.sqlite3
-/.venv
-*/migrations/__pycache__
-/cert.pem
-/key.pem
-/.env
+db.sqlite3
+.venv
+__pycache__
+cert.pem
+key.pem
+.env
 .vercel
 /staticfiles_build
+node_modules
